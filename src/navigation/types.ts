@@ -12,6 +12,11 @@ export type DashboardNavigationProp = NavigationProp<
   'Dashboard'
 >;
 
+export type QuestionnaireNavigationProp = NavigationProp<
+  RootStackParamList,
+  'Questionnaire'
+>;
+
 export type QuestionnaireRouteProp = RouteProp<
   RootStackParamList,
   'Questionnaire'

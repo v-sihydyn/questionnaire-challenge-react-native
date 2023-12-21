@@ -1,11 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 import { List, Text } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import { DashboardNavigationProp } from '../../navigation/types';
 
-export const DashboardScreen = () => {
-  const navigation = useNavigation<DashboardNavigationProp>();
-
+export const DashboardScreen = ({
+  navigation,
+}: {
+  navigation: DashboardNavigationProp;
+}) => {
   return (
     <View style={styles.root}>
       <Text

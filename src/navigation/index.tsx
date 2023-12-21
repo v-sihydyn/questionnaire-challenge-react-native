@@ -17,6 +17,9 @@ export const Navigation = () => {
         <Stack.Screen
           name="Questionnaire"
           component={QuestionnaireScreen}
+          options={{
+            title: '',
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
