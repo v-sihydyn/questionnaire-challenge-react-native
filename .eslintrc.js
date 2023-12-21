@@ -6,6 +6,7 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         'react/react-in-jsx-scope': 'off',
+        curly: 'off',
       },
     },
   ],
