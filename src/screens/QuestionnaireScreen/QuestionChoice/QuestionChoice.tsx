@@ -1,5 +1,4 @@
 import { Card, RadioButton } from 'react-native-paper';
-import { useState } from 'react';
 
 type Option = {
   label: string;
@@ -8,11 +7,16 @@ type Option = {
 type Props = {
   title: string | undefined;
   options: Option[];
+  value: string;
+  onChange: (value: string) => void;
 };
 
-export const QuestionChoice = ({ title = '', options }: Props) => {
-  const [value, setValue] = useState('');
-
+export const QuestionChoice = ({
+  title = '',
+  options,
+  value,
+  onChange,
+}: Props) => {
   return (
     <Card>
       <Card.Title
@@ -22,7 +26,7 @@ export const QuestionChoice = ({ title = '', options }: Props) => {
       />
       <Card.Content>
         <RadioButton.Group
-          onValueChange={newValue => setValue(newValue)}
+          onValueChange={onChange}
           value={value}
         >
           {options.map(option => (

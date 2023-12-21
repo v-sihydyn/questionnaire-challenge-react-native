@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 type Props = {
   title: string | undefined;
+  value: string;
+  onChange: (value: string) => void;
 };
 
-export const QuestionText = ({ title = '' }: Props) => {
-  const [text, setText] = useState('');
-
+export const QuestionText = ({ title = '', value, onChange }: Props) => {
   return (
     <Card>
       <Card.Title
@@ -17,9 +17,10 @@ export const QuestionText = ({ title = '' }: Props) => {
       />
       <Card.Content>
         <TextInput
-          value={text}
-          onChangeText={text => setText(text)}
+          value={value}
+          onChangeText={onChange}
           placeholder="Enter text"
+          returnKeyType="done"
         />
       </Card.Content>
     </Card>

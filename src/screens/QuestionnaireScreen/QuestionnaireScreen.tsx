@@ -6,13 +6,13 @@ import {
 import Questionnaire1 from '../../data/Questionnaire1.json';
 import Questionnaire2 from '../../data/Questionnaire2.json';
 import Questionnaire3 from '../../data/Questionnaire3.json';
-import { Questionnaire } from 'fhir/r5';
+import { Questionnaire, QuestionnaireItem } from 'fhir/r5';
 import { useEffect, useState } from 'react';
 import { QuestionText } from './QuestionText/QuestionText';
 import { QuestionNumber } from './QuestionNumber/QuestionNumber';
-import { QuestionChoice } from './QuestionChoice/QuestionChoice.tsx';
-import { QuestionDisplay } from './QuestionDisplay/QuestionDisplay.tsx';
-import { ActionBar } from './ActionBar/ActionBar.tsx';
+import { QuestionChoice } from './QuestionChoice/QuestionChoice';
+import { QuestionDisplay } from './QuestionDisplay/QuestionDisplay';
+import { ActionBar } from './ActionBar/ActionBar';
 
 export const QuestionnaireScreen = ({
   navigation,
@@ -25,8 +25,24 @@ export const QuestionnaireScreen = ({
   const questionnaireConfig = QUESTIONNAIRES[name];
   const [stepIndex, setStepIndex] = useState(0);
 
-  console.log(questionnaireConfig.item);
   const step = questionnaireConfig.item?.[stepIndex];
+  const [answers, setAnswers] = useState(() => {
+    return (questionnaireConfig.item ?? [])
+      .filter(x => x.type !== 'display')
+      .reduce<Record<string, Answer>>((acc, question) => {
+        if (question.linkId) {
+          acc[question.linkId] = {
+            question: question,
+            value: '',
+          };
+        }
+
+        return acc;
+      }, {});
+  });
+  console.log({ answers });
+  const currentAnswer = answers[step!.linkId]; // @TODO: handle missing linkId
+  console.log('current answer', { currentAnswer, step });
 
   useEffect(() => {
     navigation.setOptions({
@@ -36,14 +52,36 @@ export const QuestionnaireScreen = ({
 
   if (!step) return null;
 
+  const updateCurrentAnswer = (value: string) => {
+    setAnswers(prev => ({
+      ...prev,
+      [step.linkId]: {
+        ...prev[step.linkId],
+        value,
+      },
+    }));
+  };
+
   let stepComponent;
   switch (step.type) {
     case 'text':
-      stepComponent = <QuestionText title={step.text} />;
+      stepComponent = (
+        <QuestionText
+          title={step.text}
+          value={currentAnswer.value}
+          onChange={updateCurrentAnswer}
+        />
+      );
       break;
     case 'quantity':
     case 'integer':
-      stepComponent = <QuestionNumber title={step.text} />;
+      stepComponent = (
+        <QuestionNumber
+          title={step.text}
+          value={currentAnswer.value}
+          onChange={updateCurrentAnswer}
+        />
+      );
       break;
     case 'coding':
       const options = (step.answerOption ?? []).map(option => ({
@@ -54,6 +92,8 @@ export const QuestionnaireScreen = ({
         <QuestionChoice
           title={step.text}
           options={options}
+          value={currentAnswer.value}
+          onChange={updateCurrentAnswer}
         />
       );
       break;
@@ -84,15 +124,20 @@ export const QuestionnaireScreen = ({
   );
 };
 
-const QUESTIONNAIRES: { [key: string]: Questionnaire } = {
-  Questionnaire1: Questionnaire1.questionnaire as Questionnaire,
-  Questionnaire2: Questionnaire2.questionnaire as Questionnaire,
-  Questionnaire3: Questionnaire3.questionnaire as Questionnaire,
-};
-
 const styles = StyleSheet.create({
   root: {
     padding: 20,
     flexGrow: 1,
   },
 });
+
+const QUESTIONNAIRES: { [key: string]: Questionnaire } = {
+  Questionnaire1: Questionnaire1.questionnaire as Questionnaire,
+  Questionnaire2: Questionnaire2.questionnaire as Questionnaire,
+  Questionnaire3: Questionnaire3.questionnaire as Questionnaire,
+};
+
+type Answer = {
+  question: QuestionnaireItem;
+  value: string;
+};

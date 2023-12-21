@@ -1,13 +1,12 @@
 import { Card, TextInput } from 'react-native-paper';
-import { useState } from 'react';
 
 type Props = {
   title: string | undefined;
+  value: string;
+  onChange: (value: string) => void;
 };
 
-export const QuestionNumber = ({ title = '' }: Props) => {
-  const [text, setText] = useState('');
-
+export const QuestionNumber = ({ title = '', value, onChange }: Props) => {
   return (
     <Card>
       <Card.Title
@@ -17,10 +16,11 @@ export const QuestionNumber = ({ title = '' }: Props) => {
       />
       <Card.Content>
         <TextInput
-          value={text}
-          onChangeText={text => setText(text)}
+          value={value}
+          onChangeText={onChange}
           placeholder="Enter a number"
           keyboardType="numeric"
+          returnKeyType="done"
         />
       </Card.Content>
     </Card>
