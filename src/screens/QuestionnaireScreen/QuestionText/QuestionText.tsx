@@ -1,13 +1,18 @@
-import { Card, TextInput } from 'react-native-paper';
-import { useState } from 'react';
+import { Card, Text, TextInput } from 'react-native-paper';
 
 type Props = {
   title: string | undefined;
   value: string;
   onChange: (value: string) => void;
+  required?: boolean;
 };
 
-export const QuestionText = ({ title = '', value, onChange }: Props) => {
+export const QuestionText = ({
+  title = '',
+  value,
+  onChange,
+  required,
+}: Props) => {
   return (
     <Card>
       <Card.Title
@@ -22,6 +27,14 @@ export const QuestionText = ({ title = '', value, onChange }: Props) => {
           placeholder="Enter text"
           returnKeyType="done"
         />
+        {required && (
+          <Text
+            variant="bodyMedium"
+            style={{ marginTop: 12 }}
+          >
+            *Required
+          </Text>
+        )}
       </Card.Content>
     </Card>
   );

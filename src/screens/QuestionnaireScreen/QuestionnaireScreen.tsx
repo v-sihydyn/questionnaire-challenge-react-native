@@ -72,6 +72,7 @@ export const QuestionnaireScreen = ({
           title={step.text}
           value={currentAnswer.value}
           onChange={updateCurrentAnswer}
+          required={step.required}
         />
       );
       break;
@@ -82,6 +83,7 @@ export const QuestionnaireScreen = ({
           title={step.text}
           value={currentAnswer.value}
           onChange={updateCurrentAnswer}
+          required={step.required}
         />
       );
       break;
@@ -96,6 +98,7 @@ export const QuestionnaireScreen = ({
           options={options}
           value={currentAnswer.value}
           onChange={updateCurrentAnswer}
+          required={step.required}
         />
       );
       break;

@@ -1,12 +1,18 @@
-import { Card, TextInput } from 'react-native-paper';
+import { Card, Text, TextInput } from 'react-native-paper';
 
 type Props = {
   title: string | undefined;
   value: string;
   onChange: (value: string) => void;
+  required?: boolean;
 };
 
-export const QuestionNumber = ({ title = '', value, onChange }: Props) => {
+export const QuestionNumber = ({
+  title = '',
+  value,
+  onChange,
+  required,
+}: Props) => {
   return (
     <Card>
       <Card.Title
@@ -22,6 +28,14 @@ export const QuestionNumber = ({ title = '', value, onChange }: Props) => {
           keyboardType="numeric"
           returnKeyType="done"
         />
+        {required && (
+          <Text
+            variant="bodyMedium"
+            style={{ marginTop: 12 }}
+          >
+            *Required
+          </Text>
+        )}
       </Card.Content>
     </Card>
   );

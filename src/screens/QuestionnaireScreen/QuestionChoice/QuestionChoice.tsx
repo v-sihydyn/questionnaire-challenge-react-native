@@ -1,4 +1,4 @@
-import { Card, RadioButton } from 'react-native-paper';
+import { Card, RadioButton, Text } from 'react-native-paper';
 
 type Option = {
   label: string;
@@ -9,6 +9,7 @@ type Props = {
   options: Option[];
   value: string;
   onChange: (value: string) => void;
+  required?: boolean;
 };
 
 export const QuestionChoice = ({
@@ -16,6 +17,7 @@ export const QuestionChoice = ({
   options,
   value,
   onChange,
+  required,
 }: Props) => {
   return (
     <Card>
@@ -36,6 +38,14 @@ export const QuestionChoice = ({
             />
           ))}
         </RadioButton.Group>
+        {required && (
+          <Text
+            variant="bodyMedium"
+            style={{ marginTop: 12 }}
+          >
+            *Required
+          </Text>
+        )}
       </Card.Content>
     </Card>
   );
