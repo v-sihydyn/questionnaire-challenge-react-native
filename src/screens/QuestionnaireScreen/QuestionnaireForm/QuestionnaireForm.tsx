@@ -2,10 +2,6 @@ import { View, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { Answer, Option } from '../../../types';
 import { Questionnaire } from 'fhir/r5';
-import { QuestionText } from '../QuestionText/QuestionText';
-import { QuestionNumber } from '../QuestionNumber/QuestionNumber';
-import { QuestionChoice } from '../QuestionChoice/QuestionChoice';
-import { QuestionDisplay } from '../QuestionDisplay/QuestionDisplay';
 import { Button, HelperText, ProgressBar } from 'react-native-paper';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import { QuestionnaireNavigationProp } from '../../../navigation/types';
@@ -16,6 +12,7 @@ import {
   mapQuestions,
   validateAnswers,
 } from './utils';
+import { QuestionFactory } from '../QuestionFactory/QuestionFactory';
 
 type Props = {
   questionnaireConfig: Questionnaire;
@@ -56,72 +53,6 @@ export const QuestionnaireForm = ({ questionnaireConfig }: Props) => {
       [step.linkId]: answers[step.linkId].isValid(value),
     }));
   };
-
-  let stepComponent;
-  switch (step.type) {
-    case 'text':
-      stepComponent = (
-        <QuestionText
-          title={step.text}
-          value={currentAnswer.value as string}
-          onChange={updateCurrentAnswer}
-          required={step.required}
-          error={errors[step.linkId]}
-          touched={touched[step.linkId]}
-        />
-      );
-      break;
-    case 'integer':
-      stepComponent = (
-        <QuestionNumber
-          title={step.text}
-          value={currentAnswer.value as string}
-          onChange={updateCurrentAnswer}
-          required={step.required}
-          error={errors[step.linkId]}
-          touched={touched[step.linkId]}
-        />
-      );
-      break;
-    case 'quantity':
-      const unitType = step.extension?.find(
-        x => x.url === 'unitType'
-      )?.valueString;
-      stepComponent = (
-        <QuestionNumber
-          title={step.text}
-          value={currentAnswer.value as string}
-          onChange={updateCurrentAnswer}
-          required={step.required}
-          unitType={unitType}
-          error={errors[step.linkId]}
-          touched={touched[step.linkId]}
-        />
-      );
-      break;
-    case 'coding':
-      const options = (step.answerOption ?? []).map(option => ({
-        label: option.valueCoding?.display ?? '',
-        value: option.valueCoding?.code ?? '',
-      }));
-      stepComponent = (
-        <QuestionChoice
-          title={step.text}
-          options={options}
-          value={(currentAnswer?.value as Option)?.value ?? ''}
-          onChange={updateCurrentAnswer}
-          required={step.required}
-          error={errors[step.linkId]}
-          touched={touched[step.linkId]}
-        />
-      );
-      break;
-    case 'display':
-      stepComponent = <QuestionDisplay text={step.text} />;
-      break;
-    default:
-      stepComponent = null;
-  }
 
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === questions.length - 1;
@@ -169,7 +100,15 @@ export const QuestionnaireForm = ({ questionnaireConfig }: Props) => {
     <View style={styles.root}>
       <ProgressBar progress={progress} />
       <View style={styles.content}>
-        <View style={{ marginBottom: 'auto' }}>{stepComponent}</View>
+        <View style={{ marginBottom: 'auto' }}>
+          <QuestionFactory
+            question={step}
+            value={currentAnswer?.value}
+            onChange={updateCurrentAnswer}
+            error={errors[step.linkId]}
+            touched={touched[step.linkId]}
+          />
+        </View>
         <HelperText
           type="error"
           visible={hasErrors}

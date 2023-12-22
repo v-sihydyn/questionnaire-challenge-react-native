@@ -1,5 +1,6 @@
 import { Card, HelperText, RadioButton, Text } from 'react-native-paper';
 import { Option } from '../../../types';
+import { View } from 'react-native';
 
 type Props = {
   title: string | undefined;
@@ -41,12 +42,14 @@ export const QuestionChoice = ({
             />
           ))}
         </RadioButton.Group>
-        <HelperText
-          type="error"
-          visible={Boolean(error && touched)}
-        >
-          {error}
-        </HelperText>
+        <View style={{ height: 30 }}>
+          <HelperText
+            type="error"
+            visible={Boolean(error && touched)}
+          >
+            {error}
+          </HelperText>
+        </View>
         {required && (
           <Text
             variant="bodyMedium"

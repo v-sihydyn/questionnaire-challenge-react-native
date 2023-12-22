@@ -2,7 +2,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { QuestionnaireItem } from 'fhir/r5';
 import { Answer } from '../../../types.ts';
 
-export const mapQuestions = (questions: QuestionnaireItem[]) =>
+export const mapQuestions = (
+  questions: QuestionnaireItem[]
+): QuestionnaireItem[] =>
   questions.map(q => ({
     ...q,
     linkId: q.linkId || uuidv4(),
