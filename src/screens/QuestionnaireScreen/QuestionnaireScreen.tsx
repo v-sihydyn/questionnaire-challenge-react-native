@@ -125,6 +125,7 @@ export const QuestionnaireScreen = ({
       stepComponent = null;
   }
 
+  const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === questions.length - 1;
   const isSomeRequiredAnswerInvalid = Object.values(answers).some(
     a => !a.value
@@ -137,31 +138,31 @@ export const QuestionnaireScreen = ({
       <View style={styles.content}>
         <View style={{ marginBottom: 'auto' }}>{stepComponent}</View>
         <View style={styles.actionBar}>
-          <Button
-            icon="arrow-left-thin"
-            mode="outlined"
-            onPress={() => {
-              if (stepIndex > 0) {
-                setStepIndex(i => i - 1);
-              } else {
-                navigation.goBack();
-              }
-            }}
-          >
-            Back
-          </Button>
-          {!isLastStep && (
+          {isFirstStep ? (
             <Button
-              icon="arrow-right-thin"
-              mode="contained"
+              icon="arrow-left-thin"
+              mode="outlined"
               onPress={() => {
-                if (stepIndex < questions.length - 1) setStepIndex(i => i + 1);
+                navigation.goBack();
               }}
             >
-              Next
+              Back
+            </Button>
+          ) : (
+            <Button
+              icon="arrow-left-thin"
+              mode="outlined"
+              onPress={() => {
+                if (stepIndex > 0) {
+                  setStepIndex(i => i - 1);
+                }
+              }}
+            >
+              Previous
             </Button>
           )}
-          {isLastStep && (
+
+          {isLastStep ? (
             <Button
               mode="contained"
               onPress={() => {
@@ -176,6 +177,16 @@ export const QuestionnaireScreen = ({
               disabled={isSomeRequiredAnswerInvalid}
             >
               Submit
+            </Button>
+          ) : (
+            <Button
+              icon="arrow-right-thin"
+              mode="contained"
+              onPress={() => {
+                if (stepIndex < questions.length - 1) setStepIndex(i => i + 1);
+              }}
+            >
+              Next
             </Button>
           )}
         </View>
