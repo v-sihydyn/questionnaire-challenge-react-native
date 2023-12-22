@@ -5,6 +5,7 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
+  unitType?: string;
 };
 
 export const QuestionNumber = ({
@@ -12,6 +13,7 @@ export const QuestionNumber = ({
   value,
   onChange,
   required,
+  unitType,
 }: Props) => {
   return (
     <Card>
@@ -27,6 +29,7 @@ export const QuestionNumber = ({
           placeholder="Enter a number"
           keyboardType="numeric"
           returnKeyType="done"
+          right={unitType && <TextInput.Affix text={unitType} />}
         />
         {required && (
           <Text

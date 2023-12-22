@@ -79,7 +79,6 @@ export const QuestionnaireScreen = ({
         />
       );
       break;
-    case 'quantity':
     case 'integer':
       stepComponent = (
         <QuestionNumber
@@ -87,6 +86,21 @@ export const QuestionnaireScreen = ({
           value={currentAnswer.value as string}
           onChange={updateCurrentAnswer}
           required={step.required}
+        />
+      );
+      break;
+    case 'quantity':
+      const unitType = step.extension?.find(
+        x => x.url === 'unitType'
+      )?.valueString;
+      console.log({ unitType });
+      stepComponent = (
+        <QuestionNumber
+          title={step.text}
+          value={currentAnswer.value as string}
+          onChange={updateCurrentAnswer}
+          required={step.required}
+          unitType={unitType}
         />
       );
       break;
