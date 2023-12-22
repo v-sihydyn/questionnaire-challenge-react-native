@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
 import { DashboardScreen } from '../screens/DashboardScreen/DashboardScreen';
 import { QuestionnaireScreen } from '../screens/QuestionnaireScreen/QuestionnaireScreen';
+import { SummaryScreen } from '../screens/SummaryScreen/SummaryScreen.tsx';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -20,6 +21,10 @@ export const Navigation = () => {
           options={{
             title: '',
           }}
+        />
+        <Stack.Screen
+          name="Summary"
+          component={SummaryScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

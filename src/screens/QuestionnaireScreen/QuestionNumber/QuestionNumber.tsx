@@ -16,7 +16,7 @@ export const QuestionNumber = ({
   return (
     <Card>
       <Card.Title
-        title={title.replace(/\<br \/>/gm, '\n')}
+        title={title}
         titleVariant="titleMedium"
         titleNumberOfLines={4}
       />

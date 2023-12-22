@@ -1,14 +1,11 @@
 import { Card, RadioButton, Text } from 'react-native-paper';
+import { Option } from '../../../types';
 
-type Option = {
-  label: string;
-  value: string;
-};
 type Props = {
   title: string | undefined;
   options: Option[];
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: Option | null) => void;
   required?: boolean;
 };
 
@@ -22,13 +19,15 @@ export const QuestionChoice = ({
   return (
     <Card>
       <Card.Title
-        title={title.replace(/\<br \/>/gm, '\n')}
+        title={title}
         titleVariant="titleMedium"
         titleNumberOfLines={4}
       />
       <Card.Content>
         <RadioButton.Group
-          onValueChange={onChange}
+          onValueChange={value => {
+            onChange(options.find(o => o.value === value) ?? null);
+          }}
           value={value}
         >
           {options.map(option => (
