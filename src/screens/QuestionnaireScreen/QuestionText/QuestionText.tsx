@@ -1,3 +1,4 @@
+import { View } from 'react-native';
 import { Card, HelperText, Text, TextInput } from 'react-native-paper';
 
 type Props = {
@@ -32,12 +33,14 @@ export const QuestionText = ({
           returnKeyType="done"
           error={Boolean(error && touched)}
         />
-        <HelperText
-          type="error"
-          visible={Boolean(error && touched)}
-        >
-          {error}
-        </HelperText>
+        <View style={{ height: 30 }}>
+          <HelperText
+            type="error"
+            visible={Boolean(error && touched)}
+          >
+            {error}
+          </HelperText>
+        </View>
         {required && (
           <Text
             variant="bodyMedium"
