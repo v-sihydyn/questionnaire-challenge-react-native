@@ -1,10 +1,12 @@
-import { Card, Text, TextInput } from 'react-native-paper';
+import { Card, HelperText, Text, TextInput } from 'react-native-paper';
 
 type Props = {
   title: string | undefined;
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
+  error: string | undefined;
+  touched: boolean;
 };
 
 export const QuestionText = ({
@@ -12,6 +14,8 @@ export const QuestionText = ({
   value,
   onChange,
   required,
+  error,
+  touched,
 }: Props) => {
   return (
     <Card>
@@ -26,7 +30,14 @@ export const QuestionText = ({
           onChangeText={onChange}
           placeholder="Enter text"
           returnKeyType="done"
+          error={Boolean(error && touched)}
         />
+        <HelperText
+          type="error"
+          visible={Boolean(error && touched)}
+        >
+          {error}
+        </HelperText>
         {required && (
           <Text
             variant="bodyMedium"

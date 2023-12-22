@@ -1,4 +1,4 @@
-import { Card, Text, TextInput } from 'react-native-paper';
+import { Card, HelperText, Text, TextInput } from 'react-native-paper';
 
 type Props = {
   title: string | undefined;
@@ -6,6 +6,8 @@ type Props = {
   onChange: (value: string) => void;
   required?: boolean;
   unitType?: string;
+  error: string | undefined;
+  touched: boolean;
 };
 
 export const QuestionNumber = ({
@@ -14,6 +16,8 @@ export const QuestionNumber = ({
   onChange,
   required,
   unitType,
+  error,
+  touched,
 }: Props) => {
   return (
     <Card>
@@ -30,7 +34,14 @@ export const QuestionNumber = ({
           keyboardType="numeric"
           returnKeyType="done"
           right={unitType && <TextInput.Affix text={unitType} />}
+          error={Boolean(error && touched)}
         />
+        <HelperText
+          type="error"
+          visible={Boolean(error && touched)}
+        >
+          {error}
+        </HelperText>
         {required && (
           <Text
             variant="bodyMedium"
