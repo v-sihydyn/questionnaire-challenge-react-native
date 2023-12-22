@@ -13,6 +13,7 @@ import { QuestionNumber } from './QuestionNumber/QuestionNumber';
 import { QuestionChoice } from './QuestionChoice/QuestionChoice';
 import { QuestionDisplay } from './QuestionDisplay/QuestionDisplay';
 import { ActionBar } from './ActionBar/ActionBar';
+import { v4 as uuidv4 } from 'uuid';
 
 export const QuestionnaireScreen = ({
   navigation,
@@ -24,25 +25,26 @@ export const QuestionnaireScreen = ({
   const { name } = route.params;
   const questionnaireConfig = QUESTIONNAIRES[name];
   const [stepIndex, setStepIndex] = useState(0);
-
-  const step = questionnaireConfig.item?.[stepIndex];
+  const [questions] = useState(() =>
+    (questionnaireConfig.item ?? []).map(q => ({
+      ...q,
+      linkId: q.linkId || uuidv4(),
+    }))
+  );
+  const step = questions[stepIndex];
   const [answers, setAnswers] = useState(() => {
-    return (questionnaireConfig.item ?? [])
+    return questions
       .filter(x => x.type !== 'display')
       .reduce<Record<string, Answer>>((acc, question) => {
-        if (question.linkId) {
-          acc[question.linkId] = {
-            question: question,
-            value: '',
-          };
-        }
+        acc[question.linkId] = {
+          question: question,
+          value: '',
+        };
 
         return acc;
       }, {});
   });
-  console.log({ answers });
-  const currentAnswer = answers[step!.linkId]; // @TODO: handle missing linkId
-  console.log('current answer', { currentAnswer, step });
+  const currentAnswer = answers[step.linkId];
 
   useEffect(() => {
     navigation.setOptions({
@@ -116,8 +118,7 @@ export const QuestionnaireScreen = ({
           }
         }}
         onGoNext={() => {
-          if (stepIndex < (questionnaireConfig.item?.length ?? 0) - 1)
-            setStepIndex(i => i + 1);
+          if (stepIndex < questions.length - 1) setStepIndex(i => i + 1);
         }}
       />
     </View>

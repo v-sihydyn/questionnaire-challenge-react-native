@@ -15,10 +15,12 @@
     "@types/fhir": "0.0.40",
     "react": "18.2.0",
     "react-native": "0.73.1",
+    "react-native-get-random-values": "1.10.0",
     "react-native-paper": "5.11.4",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "3.29.0",
-    "react-native-vector-icons": "10.0.3"
+    "react-native-vector-icons": "10.0.3",
+    "uuid": "9.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.23.6",
@@ -30,6 +32,7 @@
     "@react-native/typescript-config": "0.73.1",
     "@types/react": "18.2.45",
     "@types/react-test-renderer": "18.0.7",
+    "@types/uuid": "9.0.7",
     "babel-jest": "29.7.0",
     "eslint": "8.56.0",
     "jest": "29.7.0",
