@@ -13,7 +13,7 @@ import { QuestionNumber } from './QuestionNumber/QuestionNumber';
 import { QuestionChoice } from './QuestionChoice/QuestionChoice';
 import { QuestionDisplay } from './QuestionDisplay/QuestionDisplay';
 import { v4 as uuidv4 } from 'uuid';
-import { Button } from 'react-native-paper';
+import { Button, ProgressBar } from 'react-native-paper';
 import { StackActions } from '@react-navigation/native';
 import { Answer, Option } from '../../types';
 
@@ -116,54 +116,56 @@ export const QuestionnaireScreen = ({
   const isSomeRequiredAnswerInvalid = Object.values(answers).some(
     a => !a.value
   );
-
-  console.log('answers', answers);
+  const progress = stepIndex / (questions.length - 1);
 
   return (
     <View style={styles.root}>
-      <View style={{ marginBottom: 'auto' }}>{stepComponent}</View>
-      <View style={styles.actionBar}>
-        <Button
-          icon="arrow-left-thin"
-          mode="outlined"
-          onPress={() => {
-            if (stepIndex > 0) {
-              setStepIndex(i => i - 1);
-            } else {
-              navigation.goBack();
-            }
-          }}
-        >
-          Back
-        </Button>
-        {!isLastStep && (
+      <ProgressBar progress={progress} />
+      <View style={styles.content}>
+        <View style={{ marginBottom: 'auto' }}>{stepComponent}</View>
+        <View style={styles.actionBar}>
           <Button
-            icon="arrow-right-thin"
-            mode="contained"
+            icon="arrow-left-thin"
+            mode="outlined"
             onPress={() => {
-              if (stepIndex < questions.length - 1) setStepIndex(i => i + 1);
-            }}
-          >
-            Next
-          </Button>
-        )}
-        {isLastStep && (
-          <Button
-            mode="contained"
-            onPress={() => {
-              if (!isSomeRequiredAnswerInvalid) {
-                navigation.dispatch(
-                  StackActions.replace('Summary', {
-                    answers: Object.values(answers),
-                  })
-                );
+              if (stepIndex > 0) {
+                setStepIndex(i => i - 1);
+              } else {
+                navigation.goBack();
               }
             }}
-            disabled={isSomeRequiredAnswerInvalid}
           >
-            Submit
+            Back
           </Button>
-        )}
+          {!isLastStep && (
+            <Button
+              icon="arrow-right-thin"
+              mode="contained"
+              onPress={() => {
+                if (stepIndex < questions.length - 1) setStepIndex(i => i + 1);
+              }}
+            >
+              Next
+            </Button>
+          )}
+          {isLastStep && (
+            <Button
+              mode="contained"
+              onPress={() => {
+                if (!isSomeRequiredAnswerInvalid) {
+                  navigation.dispatch(
+                    StackActions.replace('Summary', {
+                      answers: Object.values(answers),
+                    })
+                  );
+                }
+              }}
+              disabled={isSomeRequiredAnswerInvalid}
+            >
+              Submit
+            </Button>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -171,6 +173,9 @@ export const QuestionnaireScreen = ({
 
 const styles = StyleSheet.create({
   root: {
+    flexGrow: 1,
+  },
+  content: {
     padding: 20,
     flexGrow: 1,
   },

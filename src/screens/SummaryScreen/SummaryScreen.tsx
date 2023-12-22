@@ -24,7 +24,7 @@ export const SummaryScreen = ({ route }: Props) => {
             <Text variant="bodyLarge">
               {a.question.type === 'coding'
                 ? (a.value as Option)?.label
-                : (a.value as string | null)}
+                : (a.value as string)}
             </Text>
           </View>
         ))}
