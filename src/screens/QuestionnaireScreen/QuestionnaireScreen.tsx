@@ -93,7 +93,6 @@ export const QuestionnaireScreen = ({
       const unitType = step.extension?.find(
         x => x.url === 'unitType'
       )?.valueString;
-      console.log({ unitType });
       stepComponent = (
         <QuestionNumber
           title={step.text}
