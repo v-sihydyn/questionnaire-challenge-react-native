@@ -1,7 +1,7 @@
 import { QuestionText } from '../QuestionText/QuestionText';
 import { QuestionNumber } from '../QuestionNumber/QuestionNumber';
 import { QuestionChoice } from '../QuestionChoice/QuestionChoice';
-import { Option } from '../../../types.ts';
+import { Option } from '../../../types';
 import { QuestionDisplay } from '../QuestionDisplay/QuestionDisplay';
 import { Card } from 'react-native-paper';
 import { QuestionnaireItem } from 'fhir/r5';
@@ -48,6 +48,7 @@ export const QuestionFactory = ({
       const unitType = question.extension?.find(
         x => x.url === 'unitType'
       )?.valueString;
+
       return (
         <QuestionNumber
           title={question.text}
@@ -77,7 +78,6 @@ export const QuestionFactory = ({
       );
     case 'display':
       return <QuestionDisplay text={question.text} />;
-
     default:
       return (
         <Card>

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { QuestionnaireItem } from 'fhir/r5';
-import { Answer } from '../../../types.ts';
+import { Answer } from '../../../types';
 
 export const mapQuestions = (
   questions: QuestionnaireItem[]
@@ -42,7 +42,7 @@ export const createAnswersMap = (questions: QuestionnaireItem[]) =>
     }, {});
 
 export const createErrorsMap = (answers: Record<string, Answer>) =>
-  Object.keys(answers).reduce<{ [key: string]: string | undefined }>(
+  Object.keys(answers).reduce<Record<string, string | undefined>>(
     (acc, current) => {
       acc[current] = answers[current].isValid(answers[current].value);
       return acc;
@@ -51,19 +51,21 @@ export const createErrorsMap = (answers: Record<string, Answer>) =>
   );
 
 export const createTouchedMap = (answers: Record<string, Answer>) =>
-  Object.keys(answers).reduce<{ [key: string]: boolean }>((acc, current) => {
+  Object.keys(answers).reduce<Record<string, boolean>>((acc, current) => {
     acc[current] = false;
     return acc;
   }, {});
 
 export const validateAnswers = (answers: Record<string, Answer>) =>
-  Object.keys(answers).reduce<{
-    [key: string]: string | undefined;
-  }>((acc, current) => {
-    const message = answers[current].isValid(answers[current].value);
-    if (message) {
-      acc[current] = message;
-    }
+  Object.keys(answers).reduce<Record<string, string | undefined>>(
+    (acc, current) => {
+      const message = answers[current].isValid(answers[current].value);
 
-    return acc;
-  }, {});
+      if (message) {
+        acc[current] = message;
+      }
+
+      return acc;
+    },
+    {}
+  );

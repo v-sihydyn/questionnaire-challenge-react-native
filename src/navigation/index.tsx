@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
 import { DashboardScreen } from '../screens/DashboardScreen/DashboardScreen';
 import { QuestionnaireScreen } from '../screens/QuestionnaireScreen/QuestionnaireScreen';
-import { SummaryScreen } from '../screens/SummaryScreen/SummaryScreen.tsx';
+import { SummaryScreen } from '../screens/SummaryScreen/SummaryScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
