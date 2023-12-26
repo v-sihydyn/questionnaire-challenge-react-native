@@ -10,6 +10,7 @@ import {
   createErrorsMap,
   createTouchedMap,
   mapQuestions,
+  omit,
   validateAnswers,
 } from './utils';
 import { QuestionFactory } from '../QuestionFactory/QuestionFactory';
@@ -88,7 +89,7 @@ export const QuestionnaireForm = ({ questionnaireConfig }: Props) => {
     } else {
       navigation.dispatch(
         StackActions.replace('Summary', {
-          answers: Object.values(answers),
+          answers: Object.values(answers).map(x => omit(x, 'isValid')),
         })
       );
     }

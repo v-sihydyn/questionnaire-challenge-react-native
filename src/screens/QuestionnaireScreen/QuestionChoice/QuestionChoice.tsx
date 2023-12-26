@@ -35,8 +35,9 @@ export const QuestionChoice = ({
           }}
           value={value}
         >
-          {options.map(option => (
+          {options.map((option, index) => (
             <RadioButton.Item
+              key={index}
               label={option.label}
               value={option.value}
             />

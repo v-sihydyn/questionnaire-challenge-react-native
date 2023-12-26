@@ -8,7 +8,7 @@ export const QuestionDisplay = ({ text = '' }: Props) => {
   return (
     <Card>
       <Card.Content>
-        <Text variant="bodyLarge">{text.replace(/\<br \/>/gm, '\n')}</Text>
+        <Text variant="bodyLarge">{text}</Text>
       </Card.Content>
     </Card>
   );

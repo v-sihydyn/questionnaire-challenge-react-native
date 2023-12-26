@@ -7,7 +7,7 @@ export type RootStackParamList = {
     name: string;
   };
   Summary: {
-    answers: Answer[];
+    answers: Omit<Answer, 'isValid'>[];
   };
 };
 

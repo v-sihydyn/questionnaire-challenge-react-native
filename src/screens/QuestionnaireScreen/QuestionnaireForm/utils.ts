@@ -69,3 +69,10 @@ export const validateAnswers = (answers: Record<string, Answer>) =>
     },
     {}
   );
+
+export const omit = <T extends Object>(obj: T, key: keyof T) => {
+  const result = { ...obj };
+  delete result[key];
+
+  return result;
+};
