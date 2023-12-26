@@ -1,6 +1,6 @@
 import { Card, HelperText, RadioButton, Text } from 'react-native-paper';
 import { Option } from '../../../types';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 type Props = {
   title: string | undefined;
@@ -30,8 +30,8 @@ export const QuestionChoice = ({
       />
       <Card.Content>
         <RadioButton.Group
-          onValueChange={value => {
-            onChange(options.find(o => o.value === value) ?? null);
+          onValueChange={val => {
+            onChange(options.find(o => o.value === val) ?? null);
           }}
           value={value}
         >
@@ -42,7 +42,7 @@ export const QuestionChoice = ({
             />
           ))}
         </RadioButton.Group>
-        <View style={{ height: 30 }}>
+        <View style={styles.helperTextWrapper}>
           <HelperText
             type="error"
             visible={Boolean(error && touched)}
@@ -53,7 +53,7 @@ export const QuestionChoice = ({
         {required && (
           <Text
             variant="bodyMedium"
-            style={{ marginTop: 12 }}
+            style={styles.requiredMessage}
           >
             *Required
           </Text>
@@ -62,3 +62,12 @@ export const QuestionChoice = ({
     </Card>
   );
 };
+
+const styles = StyleSheet.create({
+  helperTextWrapper: {
+    height: 30,
+  },
+  requiredMessage: {
+    marginTop: 12,
+  },
+});

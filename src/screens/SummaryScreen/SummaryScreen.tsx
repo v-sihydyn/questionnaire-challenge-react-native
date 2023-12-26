@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { SummaryRouteProp } from '../../navigation/types';
 import { Text } from 'react-native-paper';
 import { Option } from '../../types';
@@ -11,30 +11,39 @@ export const SummaryScreen = ({ route }: Props) => {
   const answers = route.params.answers;
 
   return (
-    <ScrollView>
-      <View style={styles.root}>
-        {answers.map(a => (
-          <View style={{ marginBottom: 12 }}>
+    <FlatList
+      data={answers}
+      renderItem={({ item }) => {
+        const value =
+          item.question.type === 'coding'
+            ? (item.value as Option)?.label
+            : (item.value as string);
+
+        return (
+          <View style={styles.answer}>
             <Text
               variant="bodyLarge"
-              style={{ fontWeight: 'bold' }}
+              style={styles.question}
             >
-              {a.question.text}
+              {item.question.text}
             </Text>
-            <Text variant="bodyLarge">
-              {a.question.type === 'coding'
-                ? (a.value as Option)?.label
-                : (a.value as string)}
-            </Text>
+            <Text variant="bodyLarge">{value || '--'}</Text>
           </View>
-        ))}
-      </View>
-    </ScrollView>
+        );
+      }}
+      contentContainerStyle={styles.root}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     padding: 20,
+  },
+  answer: {
+    marginBottom: 12,
+  },
+  question: {
+    fontWeight: 'bold',
   },
 });

@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Card, HelperText, Text, TextInput } from 'react-native-paper';
 
 type Props = {
@@ -33,7 +33,7 @@ export const QuestionText = ({
           returnKeyType="done"
           error={Boolean(error && touched)}
         />
-        <View style={{ height: 30 }}>
+        <View style={styles.helperTextWrapper}>
           <HelperText
             type="error"
             visible={Boolean(error && touched)}
@@ -44,7 +44,7 @@ export const QuestionText = ({
         {required && (
           <Text
             variant="bodyMedium"
-            style={{ marginTop: 12 }}
+            style={styles.requiredMessage}
           >
             *Required
           </Text>
@@ -53,3 +53,12 @@ export const QuestionText = ({
     </Card>
   );
 };
+
+const styles = StyleSheet.create({
+  helperTextWrapper: {
+    height: 30,
+  },
+  requiredMessage: {
+    marginTop: 12,
+  },
+});

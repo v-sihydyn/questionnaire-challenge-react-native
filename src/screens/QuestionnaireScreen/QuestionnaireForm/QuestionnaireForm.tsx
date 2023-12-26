@@ -61,8 +61,6 @@ export const QuestionnaireForm = ({ questionnaireConfig }: Props) => {
     errorKey => Boolean(errors[errorKey]) && touched[errorKey]
   );
 
-  if (!step) return null;
-
   const handleGoToPreviousStep = () => {
     if (stepIndex > 0) {
       setStepIndex(i => i - 1);
@@ -96,11 +94,13 @@ export const QuestionnaireForm = ({ questionnaireConfig }: Props) => {
     }
   };
 
+  if (!step) return null;
+
   return (
     <View style={styles.root}>
       <ProgressBar progress={progress} />
       <View style={styles.content}>
-        <View style={{ marginBottom: 'auto' }}>
+        <View style={styles.contentInner}>
           <QuestionFactory
             question={step}
             value={currentAnswer?.value}
@@ -112,7 +112,7 @@ export const QuestionnaireForm = ({ questionnaireConfig }: Props) => {
         <HelperText
           type="error"
           visible={hasErrors}
-          style={{ marginBottom: 12 }}
+          style={styles.helperText}
         >
           Some answers are invalid
         </HelperText>
@@ -163,6 +163,12 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     flexGrow: 1,
+  },
+  contentInner: {
+    marginBottom: 'auto',
+  },
+  helperText: {
+    marginBottom: 12,
   },
   actionBar: {
     flexDirection: 'row',

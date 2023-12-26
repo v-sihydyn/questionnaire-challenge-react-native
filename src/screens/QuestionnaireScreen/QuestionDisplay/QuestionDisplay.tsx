@@ -7,7 +7,7 @@ type Props = {
 export const QuestionDisplay = ({ text = '' }: Props) => {
   return (
     <Card>
-      <Card.Content style={{ minHeight: 100 }}>
+      <Card.Content>
         <Text variant="bodyLarge">{text.replace(/\<br \/>/gm, '\n')}</Text>
       </Card.Content>
     </Card>
