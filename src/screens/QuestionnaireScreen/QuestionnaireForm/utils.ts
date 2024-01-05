@@ -28,11 +28,11 @@ export const createAnswersMap = (questions: QuestionnaireItem[]) =>
           if (question.type === 'integer' || question.type === 'quantity') {
             // Values 0 and 10 are hardcoded since there are no such constraints in questionnaire configs
             if (value < 0) {
-              return 'Value should be greater than or equal to 0';
+              return 'This value must be greater than or equal to 0';
             }
 
             if (value >= 10) {
-              return 'Value should be less than or equal to 10';
+              return 'This value must be less than or equal to 10';
             }
           }
         },
